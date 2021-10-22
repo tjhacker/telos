@@ -135,7 +135,7 @@ case "$SUBCOMMAND" in
 		rpm -q dnsmasq dnsmasq-utils tftp-server tftp syslinux-tftpboot ipxe-bootimgs git xz-devel genisoimage squid lighttpd php mod_fcgid lighttpd-fastcgi wget php-process inotify-tools
 		if [[ $? != 0 ]]; then
 		    echo "Package(s) missing. Installing required packages."
-		    yum -y install dnsmasq dnsmasq-utils tftp-server tftp syslinux-tftpboot ipxe-bootimgs git xz-devel genisoimage squid lighttpd php mod_fcgid lighttpd-fastcgi wget php-process inotify-tools
+		    yum -y install dnsmasq dnsmasq-utils tftp-server tftp syslinux-tftpboot ipxe-bootimgs git xz-devel syslinux genisoimage squid lighttpd php mod_fcgid lighttpd-fastcgi wget php-process inotify-tools
 		
 		else
 		    echo "Required packages installed."
@@ -183,19 +183,20 @@ case "$SUBCOMMAND" in
 		if [[ $VAGRANT_ROLE == "hub" ]]; then
 	       # create patched ipxe with HTTP proxy support
 	       #2.b ipxe and patches for http_proxy
-			test -e /home/vagrant/ipxe/src/bin/undionly.kpxe
+			test -e /vagrant_data/ipxe/src/bin/undionly.kpxe
 			if [[ $? != 0 ]]; then
-				cd /home/vagrant
+				cd /vagrant_data
 				git clone git://github.com/ipxe/ipxe.git
-				cd /home/vagrant/ipxe
-				patch -p1 < ./proxypatch.p
-				cp ./embedded.pxe src/embedded.pxe
+				cd /vagrant_data/ipxe
+				patch -p1 < ../proxypatch.p
+				cp ../embedded.pxe src/embedded.pxe
 				cd src
 				echo "#define DOWNLOAD_PROTO_NFS" >> config/local/general.h
 				echo "#define PING_CMD" >> config/local/general.h
 				make EMBED=embedded.pxe -j 4
+				make EMBED=embedded.pxe -j 4 bin-x86_64-efi/ipxe.efi
 			fi
-			cp /home/vagrant/ipxe/src/bin/undionly.kpxe /var/lib/tftpboot
+			cp /vagrant_data/ipxe/src/bin/undionly.kpxe /var/lib/tftpboot
 		fi
 
 		if [[ $VAGRANT_ROLE == "hub" ]]; then

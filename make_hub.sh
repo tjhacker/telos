@@ -1,6 +1,5 @@
 #!/bin/bash
 
-git clone https://github.com/tjhacker/minion.git
 mkdir -p mhub/certbundle/centos8
 cp hub/Vagrantfile mhub
 cp -r hub/* mhub/certbundle

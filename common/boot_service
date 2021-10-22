@@ -183,24 +183,18 @@ case "$SUBCOMMAND" in
 		if [[ $VAGRANT_ROLE == "hub" ]]; then
 	       # create patched ipxe with HTTP proxy support
 	       #2.b ipxe and patches for http_proxy
-		##	test -e /usr/local/src/ipxe/src/bin/undionly.kpxe
 			test -e /home/vagrant/ipxe/src/bin/undionly.kpxe
 			if [[ $? != 0 ]]; then
-		##		cd /usr/local/src
 				cd /home/vagrant
 				git clone git://github.com/ipxe/ipxe.git
-		##		cd ipxe
-				git clone https://github.com/tjhacker/ipxehttpproxy.git
-		##		cd /usr/local/src/ipxe
 				cd /home/vagrant/ipxe
-				patch -p1 < ../ipxehttpproxy/proxypatch.p
-				cp ../ipxehttpproxy/embedded.pxe src/embedded.pxe
+				patch -p1 < ./proxypatch.p
+				cp ./embedded.pxe src/embedded.pxe
 				cd src
 				echo "#define DOWNLOAD_PROTO_NFS" >> config/local/general.h
 				echo "#define PING_CMD" >> config/local/general.h
 				make EMBED=embedded.pxe -j 4
 			fi
-		##	cp /usr/local/src/ipxe/src/bin/undionly.kpxe /var/lib/tftpboot
 			cp /home/vagrant/ipxe/src/bin/undionly.kpxe /var/lib/tftpboot
 		fi
 
@@ -326,22 +320,18 @@ case "$SUBCOMMAND" in
 			cp /etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf.backup	
 			sed -i 's/server.use-ipv6 = "enable"/server.use-ipv6 = "disable"/' /etc/lighttpd/lighttpd.conf
 			# Add fastCGI conf to lighttpd 
-		##	cat /usr/local/src/ipxe/ipxehttpproxy/fastcgi.conf_addition >> /etc/lighttpd/conf.d/fastcgi.conf
 			cp /etc/lighttpd/conf.d/fastcgi.conf /etc/lighttpd/conf.d/fastcgi.conf.backup
-			cat /home/vagrant/ipxehttpproxy/fastcgi.conf_addition >> /etc/lighttpd/conf.d/fastcgi.conf
-		##	cp /usr/local/src/ipxe/ipxehttpproxy/foo.php /var/www/lighttpd/foo.php
-			cp /home/vagrant/ipxehttpproxy/telos_php_boot_options.php /var/www/lighttpd/telos_php_boot_options.php
+			cat /home/vagrant/fastcgi.conf_addition >> /etc/lighttpd/conf.d/fastcgi.conf
+			cp /home/vagrant/telos_php_boot_options.php /var/www/lighttpd/telos_php_boot_options.php
 
-		##	cp /usr/local/src/ipxe/ipxehttpproxy/dhcp_opt.php /var/www/lighttpd/dhcp_opt.php
-			cp /home/vagrant/ipxehttpproxy/dhcp_opt.php /var/www/lighttpd/dhcp_opt.php
+			cp /home/vagrant/dhcp_opt.php /var/www/lighttpd/dhcp_opt.php
 			mkdir /var/www/localhost
 			cp /etc/php.ini /var/www/localhost
 			sed -i "s:;cgi.fix_pathinfo:cgi.fix_pathinfo:" /var/www/localhost/php.ini
 			sed -i 's:#include "conf.d/fastcgi.conf:include "conf.d/fastcgi.conf:' /etc/lighttpd/modules.conf
 	
 			#### Configure Kickstart file for remote booting
-			##	cp /usr/local/src/ipxe/ipxehttpproxy/ks.cfg /var/www/lighttpd/ks.cfg
-			cp /home/vagrant/ipxehttpproxy/ks.cfg /var/www/lighttpd/ks.cfg
+			cp /home/vagrant/ks.cfg /var/www/lighttpd/ks.cfg
 	
 			#### Configure NFS server 
 			cp /etc/nfs.conf /etc/nfs.conf.backup

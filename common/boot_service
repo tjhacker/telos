@@ -321,17 +321,17 @@ case "$SUBCOMMAND" in
 			sed -i 's/server.use-ipv6 = "enable"/server.use-ipv6 = "disable"/' /etc/lighttpd/lighttpd.conf
 			# Add fastCGI conf to lighttpd 
 			cp /etc/lighttpd/conf.d/fastcgi.conf /etc/lighttpd/conf.d/fastcgi.conf.backup
-			cat /home/vagrant/fastcgi.conf_addition >> /etc/lighttpd/conf.d/fastcgi.conf
-			cp /home/vagrant/telos_php_boot_options.php /var/www/lighttpd/telos_php_boot_options.php
+			cat /vagrant_data/fastcgi.conf_addition >> /etc/lighttpd/conf.d/fastcgi.conf
+			cp /vagrant_data/telos_php_boot_options.php /var/www/lighttpd/telos_php_boot_options.php
 
-			cp /home/vagrant/dhcp_opt.php /var/www/lighttpd/dhcp_opt.php
+			cp /vagrant_data/dhcp_opt.php /var/www/lighttpd/dhcp_opt.php
 			mkdir /var/www/localhost
 			cp /etc/php.ini /var/www/localhost
 			sed -i "s:;cgi.fix_pathinfo:cgi.fix_pathinfo:" /var/www/localhost/php.ini
 			sed -i 's:#include "conf.d/fastcgi.conf:include "conf.d/fastcgi.conf:' /etc/lighttpd/modules.conf
 	
 			#### Configure Kickstart file for remote booting
-			cp /home/vagrant/ks.cfg /var/www/lighttpd/ks.cfg
+			cp /vagrant_data/ks.cfg /var/www/lighttpd/ks.cfg
 	
 			#### Configure NFS server 
 			cp /etc/nfs.conf /etc/nfs.conf.backup

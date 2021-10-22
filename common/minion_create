@@ -157,7 +157,8 @@ fi
 
 
 # 1.0.1 pull in configuration information from git
-cd /home/vagrant; git clone https://github.com/tjhacker/ipxehttpproxy.git
+cd /home/vagrant; 
+###git clone https://github.com/tjhacker/ipxehttpproxy.git
 
 # 1.0.2 Change MACAdressPolicy to allow VXLAN adapters to work with OpenVSwitch
 sed -i 's/^MACAddressPolicy=persistent/MACAddressPolicy=none/' /usr/lib/systemd/network/99-default.link
@@ -171,13 +172,13 @@ fi
     if [ $VAGRANT_ROLE == "hub" ]
     then
 # %DNSmasq
-       m4 -DSUN_IPADDR="10.210.210.41" /home/vagrant/ipxehttpproxy/strongswan/hosts.m4 > /etc/hosts
+       m4 -DSUN_IPADDR="10.210.210.41" /vagrant_data/strongswan/hosts.m4 > /etc/hosts
     fi
 
     if [ $VAGRANT_ROLE == "spoke" ]
     then
     # %jumphost
-	cat /home/vagrant/ipxehttpproxy/Juno/hosts >> /etc/hosts
+	cat /vagrant_data/Juno/hosts >> /etc/hosts
     fi
 
 
@@ -331,7 +332,7 @@ if [ $test_ipsec_conn == 0 ]; then # No active connection - establish ipsec tunn
         if [ $VAGRANT_ROLE == "hub" ]
 	then
            # strongswan configuration file for hub
-             m4 -D__LOCAL_FQDN="sun.localdomain" -D__LOCAL_CERT="hostSunCert.crt" -D__LOCALIP_TS="192.100.88.0/24" -D__REMOTEIP_TS="192.100.42.0/24,192.100.44.0/24,192.100.46.0/24" /home/vagrant/ipxehttpproxy/strongswan/uni.conf.m4 > /etc/strongswan/swanctl/conf.d/Olympus.ab.conf
+             m4 -D__LOCAL_FQDN="sun.localdomain" -D__LOCAL_CERT="hostSunCert.crt" -D__LOCALIP_TS="192.100.88.0/24" -D__REMOTEIP_TS="192.100.42.0/24,192.100.44.0/24,192.100.46.0/24" /vagrant_data/strongswan/uni.conf.m4 > /etc/strongswan/swanctl/conf.d/Olympus.ab.conf
 ####	    cp /home/vagrant/certs/stSunKey.key /etc/strongswan/swanctl/private
 	fi
 
@@ -354,7 +355,7 @@ if [ $test_ipsec_conn == 0 ]; then # No active connection - establish ipsec tunn
 			        export LOCAL_CERT="hostMarsCert.crt" 
 				export LOCAL_TS="192.100.46.0/24";;
 		esac
-    	    m4 -D__LOCAL_FQDN=$LOCAL_FQDN -D__REMOTE_FQDN="sun.localdomain" -D__LOCAL_CERT=$LOCAL_CERT -D__REMOTE_CERT="hostSunCert.crt" -D__LOCALIP_TS=$LOCAL_TS -D__REMOTEIP_TS="192.100.88.0/24" /home/vagrant/ipxehttpproxy/strongswan/uni.conf.m4 > /etc/strongswan/swanctl/conf.d/ab.conf
+    	    m4 -D__LOCAL_FQDN=$LOCAL_FQDN -D__REMOTE_FQDN="sun.localdomain" -D__LOCAL_CERT=$LOCAL_CERT -D__REMOTE_CERT="hostSunCert.crt" -D__LOCALIP_TS=$LOCAL_TS -D__REMOTEIP_TS="192.100.88.0/24" /vagrant_data/strongswan/uni.conf.m4 > /etc/strongswan/swanctl/conf.d/ab.conf
 #####	    cp /home/vagrant/certs/SunKey.key /etc/strongswan/swanctl/private
 	fi
 

@@ -197,6 +197,8 @@ case "$SUBCOMMAND" in
 				make EMBED=embedded.pxe -j 4 bin-x86_64-efi/ipxe.efi
 			fi
 			cp /vagrant_data/ipxe/src/bin/undionly.kpxe /var/lib/tftpboot
+			cp /vagrant_data/ipxe/src/bin-x86_64-efi/ipxe.efi /var/lib/tftpboot
+
 		fi
 
 		if [[ $VAGRANT_ROLE == "hub" ]]; then

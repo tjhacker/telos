@@ -330,7 +330,7 @@ case "$SUBCOMMAND" in
 			cp /etc/lighttpd/conf.d/fastcgi.conf /etc/lighttpd/conf.d/fastcgi.conf.backup
 			cat /home/vagrant/ipxehttpproxy/fastcgi.conf_addition >> /etc/lighttpd/conf.d/fastcgi.conf
 		##	cp /usr/local/src/ipxe/ipxehttpproxy/foo.php /var/www/lighttpd/foo.php
-			cp /home/vagrant/ipxehttpproxy/telos_php_boot_options.php /var/www/lighttpd/foo.php
+			cp /home/vagrant/ipxehttpproxy/telos_php_boot_options.php /var/www/lighttpd/telos_php_boot_options.php
 
 		##	cp /usr/local/src/ipxe/ipxehttpproxy/dhcp_opt.php /var/www/lighttpd/dhcp_opt.php
 			cp /home/vagrant/ipxehttpproxy/dhcp_opt.php /var/www/lighttpd/dhcp_opt.php

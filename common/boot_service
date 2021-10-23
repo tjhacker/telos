@@ -309,10 +309,10 @@ case "$SUBCOMMAND" in
 		firewall-cmd --zone=juno --add-service={nfs,rpc-bind,mountd} --permanent
 		firewall-cmd --zone=juno --add-port=2049/udp --permanent
 
-		firewall-cmd --zone=juno --add-port 67/udp --permanent
-		firewall-cmd --zone=juno --add-port 67/tcp --permanent
-		firewall-cmd --zone=juno --add-port 68/udp --permanent
-		firewall-cmd --zone=juno --add-port 68/tcp --permanent
+#		firewall-cmd --zone=juno --add-port 67/udp --permanent
+#		firewall-cmd --zone=juno --add-port 67/tcp --permanent
+#		firewall-cmd --zone=juno --add-port 68/udp --permanent
+#		firewall-cmd --zone=juno --add-port 68/tcp --permanent
 
 		###    firewall-cmd --add-masquerade --permanent
 		###    firewall-cmd --zone=dmz --set-target=DROP --permanent  #  BLOCK ALL ICMP

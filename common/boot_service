@@ -309,6 +309,11 @@ case "$SUBCOMMAND" in
 		firewall-cmd --zone=juno --add-service={nfs,rpc-bind,mountd} --permanent
 		firewall-cmd --zone=juno --add-port=2049/udp --permanent
 
+		firewall-cmd --zone=juno --add-port 67/udp --permanent
+		firewall-cmd --zone=juno --add-port 67/tcp --permanent
+		firewall-cmd --zone=juno --add-port 68/udp --permanent
+		firewall-cmd --zone=juno --add-port 68/tcp --permanent
+
 		###    firewall-cmd --add-masquerade --permanent
 		###    firewall-cmd --zone=dmz --set-target=DROP --permanent  #  BLOCK ALL ICMP
 		firewall-cmd --reload
@@ -390,7 +395,11 @@ case "$SUBCOMMAND" in
 
 			###		dnsmasq --enable-tftp --tftp-root=/var/lib/tftpboot --interface=$MPORT --dhcp-range=192.7.7.30,192.7.7.35,255.255.255.0  --dhcp-boot=undionly.kpxe --address=/juno.load/192.7.7.4 --server=8.8.4.4 --dhcp-option=6,$BOOT_DNS
 			####		dnsmasq --enable-tftp --tftp-root=/var/lib/tftpboot --interface=$MPORT --dhcp-range=192.7.7.30,192.7.7.35,255.255.255.0  --dhcp-boot=undionly.kpxe --address=/juno.load/$LOCALIP --server=8.8.4.4 --dhcp-option=6,$BOOT_DNS --dhcp-option=17,nfs://$LOCALIP/truenas
-			dnsmasq --enable-tftp --tftp-root=/var/lib/tftpboot --interface=$MPORT --dhcp-range=192.7.7.30,192.7.7.35,255.255.255.0  --dhcp-boot=undionly.kpxe --address=/juno.load/$LOCALIP --server=8.8.4.4 --dhcp-option=6,$BOOT_DNS --pid-file=/var/run/dnsmasq.pid --dhcp-optsfile=/var/dhcpopts/dhcpopts
+#			dnsmasq --enable-tftp --tftp-root=/var/lib/tftpboot --interface=$MPORT --dhcp-range=192.7.7.30,192.7.7.35,255.255.255.0  --dhcp-boot=undionly.kpxe --address=/juno.load/$LOCALIP --server=8.8.4.4 --dhcp-option=6,$BOOT_DNS --pid-file=/var/run/dnsmasq.pid --dhcp-optsfile=/var/dhcpopts/dhcpopts
+
+		dnsmasq --enable-tftp --tftp-root=/var/lib/tftpboot --interface=boot --dhcp-range=192.7.7.30,192.7.7.35,255.255.255.0 --dhcp-boot=net:UEFI,ipxe.efi --dhcp-boot=net:BIOS,undionly.kpxe --address=/juno.load/192.7.7.4 --server=8.8.4.4 --dhcp-option=6,192.7.7.12 --pid-file=/var/run/dnsmasq.pid  --dhcp-vendorclass=BIOS,PXEClient:Arch:00000 --dhcp-vendorclass=UEFI,PXEClient:Arch:00007 --dhcp-optsfile=/var/dhcpopts/dhcpopts
+
+
 
 			### Start NFS services
 			systemctl start nfs-server.service

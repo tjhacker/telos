@@ -10,7 +10,6 @@ echo "item --key u truenas_efi (u) Install TrueNAS server via EFI\n";
 echo "item --key f freenas (f) Install FreeNAS server\n";
 echo "item --key g freenas_efi (g) Install FreeNAS server via EFI\n";
 echo "item --key c centos7 (c) Install CentOS7\n";
-echo "item --key d centos7_efi (d) Install CentOS7 via EFI\n";
 echo "item --key p pfs (p) Install pfSense\n";
 echo "item --key x pfs_efi (x) Install pfSense via EFI\n";
 echo "choose target\n";
@@ -21,18 +20,9 @@ echo "exit\n";
 echo ":centos7\n";
 echo "#CentOS7\n";
 #echo "kernel http://ftp.ussg.iu.edu/linux/centos/7/os/x86_64/images/pxeboot/vmlinuz proxy=" . $proxy . " text repo=http://ftp.ussg.iu.edu/linux/centos/7/os/x86_64 text ks=http://juno.load/ks.cfg\n";
-echo "kernel http://ftp.ussg.iu.edu/linux/centos/7/os/x86_64/images/pxeboot/vmlinuz proxy=http://juno.load:3128 text repo=http://ftp.ussg.iu.edu/linux/centos/7/os/x86_64 text  ks=http://192.7.7.4/ks.cfg initrd=initrd.img \n";
+echo "kernel http://ftp.ussg.iu.edu/linux/centos/7/os/x86_64/images/pxeboot/vmlinuz proxy=" . $proxy . "text repo=http://ftp.ussg.iu.edu/linux/centos/7/os/x86_64 text  ks=http://juno.load/ks.cfg initrd=initrd.img \n";
 echo "initrd http://ftp.ussg.iu.edu/linux/centos/7/os/x86_64/images/pxeboot/initrd.img\n";
 #echo "vmlinuz initrd=initrd.img ks=http://juno.load/ks.cfg\n";
-echo "boot\n";
-
-
-echo ":centos7_efi\n";
-echo "#CentOS7 via EFI\n";
-#echo "kernel http://ftp.ussg.iu.edu/linux/centos/7/os/x86_64/images/pxeboot/vmlinuz proxy=" . $proxy . " text repo=http://ftp.ussg.iu.edu/linux/centos/7/os/x86_64 text ks=http://juno.load/ks.cfg\n";
-###echo "kernel http://ftp.ussg.iu.edu/linux/centos/7/os/x86_64/images/pxeboot/vmlinuz proxy=http://juno.load:3128 text repo=http://ftp.ussg.iu.edu/linux/centos/7/os/x86_64 text  ks=http://192.7.7.4/ks.cfg initrd=initrd.img \n";
-echo "kernel http://ftp.ussg.iu.edu/linux/centos/7/os/x86_64/images/pxeboot/vmlinuz proxy=" . $proxy . " text repo=http://ftp.ussg.iu.edu/linux/centos/7/os/x86_64 text  ks=http://192.7.7.4/ks.cfg initrd=initrd.img \n";
-echo "initrd http://ftp.ussg.iu.edu/linux/centos/7/os/x86_64/images/pxeboot/initrd.img\n";
 echo "boot\n";
 
 echo ":truenas\n";

@@ -1,14 +1,11 @@
 #!/bin/bash
 
-git clone https://github.com/tjhacker/minion.git
 mkdir -p mspoke/certbundle/centos8
-cp minion/paper/spoke/Vagrantfile mspoke
-cp -r minion/paper/spoke/* mspoke/certbundle
-cp -r minion/paper/common/* mspoke/certbundle
-rm mspoke/certbundle/Vagrantfile
+cp spoke/Vagrantfile.vm mspoke/Vagrantfile
+cp -r spoke/* mspoke/certbundle
+cp -r common/* mspoke/certbundle
+#??rm mspoke/certbundle/Vagrantfile
 cp pam_duo.conf mspoke/certbundle
 cd mspoke
 vagrant up
 vagrant ssh 
-
-

@@ -10,6 +10,8 @@ echo "item --key u truenas_efi (u) Install TrueNAS server via EFI\n";
 echo "item --key f freenas (f) Install FreeNAS server\n";
 echo "item --key g freenas_efi (g) Install FreeNAS server via EFI\n";
 echo "item --key c centos7 (c) Install CentOS7\n";
+echo "item --key d centos8-telos (d) Install CentOS8 from Telos cache\n";
+echo "item --key b centos8 (b) Install CentOS8\n";
 echo "item --key p pfs (p) Install pfSense\n";
 echo "item --key x pfs_efi (x) Install pfSense via EFI\n";
 echo "choose target\n";
@@ -23,6 +25,21 @@ echo "#CentOS7\n";
 echo "kernel http://ftp.ussg.iu.edu/linux/centos/7/os/x86_64/images/pxeboot/vmlinuz proxy=" . $proxy . "text repo=http://ftp.ussg.iu.edu/linux/centos/7/os/x86_64 text  ks=http://juno.load/ks.cfg initrd=initrd.img \n";
 echo "initrd http://ftp.ussg.iu.edu/linux/centos/7/os/x86_64/images/pxeboot/initrd.img\n";
 #echo "vmlinuz initrd=initrd.img ks=http://juno.load/ks.cfg\n";
+echo "boot\n";
+
+
+echo ":centos8-telos\n";
+echo "#CentOS8 from Telos Cache\n";
+echo "kernel http://juno.load/centos8/x86_64/images/pxeboot/vmlinuz proxy=" . $proxy . " text repo=http://juno.load/centos8/x86_64 text  ks=http://juno.load/ks8-telos.cfg initrd=initrd.img \n";
+echo "initrd http://juno.load/centos8/x86_64/images/pxeboot/initrd.img\n";
+##echo "vmlinuz initrd=initrd.img ks=http://juno.load/ks.cfg\n";
+echo "boot\n";
+
+echo ":centos8\n";
+echo "#CentOS8\n";
+echo "kernel http://ftp.ussg.iu.edu/linux/centos/8/BaseOS/x86_64/kickstart/images/pxeboot/vmlinuz proxy=" . $proxy . " text repo=http://ftp.ussg.iu.edu/linux/centos/8/BaseOS/x86_64/kickstart text  ks=http://juno.load/ks8.cfg initrd=initrd.img \n";
+echo "initrd http://ftp.ussg.iu.edu/linux/centos/8/BaseOS/x86_64/kickstart/images/pxeboot/initrd.img\n";
+##echo "vmlinuz initrd=initrd.img ks=http://juno.load/ks.cfg\n";
 echo "boot\n";
 
 echo ":truenas\n";

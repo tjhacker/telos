@@ -205,7 +205,7 @@ case "$SUBCOMMAND" in
 
 			##### Retrieve and prepare TrueNAS image for use for NFS export and booting
 			echo "/truenas *(rw,insecure,no_root_squash)" > /etc/exports
-			wget https://download.freenas.org/12.0/STABLE/RC1/x64/TrueNAS-12.0-RC1.iso -P /tmp
+			wget -nv https://download.freenas.org/12.0/STABLE/RC1/x64/TrueNAS-12.0-RC1.iso -P /tmp
 			mkdir /tnbuild; mkdir /truenas
 			mount -o loop /tmp/TrueNAS-12.0-RC1.iso /tnbuild
 			cd /tnbuild
@@ -218,7 +218,7 @@ case "$SUBCOMMAND" in
 			##### Retrieve and prepare FreeNAS image for use for NFS export and booting
 
 			 echo "/freenas *(rw,insecure,no_root_squash)" >> /etc/exports
-			 wget https://download.freenas.org/11.3/STABLE/U5/x64/FreeNAS-11.3-U5.iso -P /tmp
+			 wget -nv https://download.freenas.org/11.3/STABLE/U5/x64/FreeNAS-11.3-U5.iso -P /tmp
 			 mkdir /fnbuild; mkdir /freenas
 			 mount -o loop /tmp/FreeNAS-11.3-U5.iso /fnbuild
 			 cd /fnbuild
@@ -233,7 +233,7 @@ case "$SUBCOMMAND" in
 			 ##### Retrieve and prepare Centos8 ISO for use to create local HTTP cache
 
 			 cd /tmp
-			 wget https://ftp.ussg.iu.edu/linux/centos/8/isos/x86_64/CentOS-8.4.2105-x86_64-dvd1.iso
+			 wget -nv https://ftp.ussg.iu.edu/linux/centos/8/isos/x86_64/CentOS-8.4.2105-x86_64-dvd1.iso
 			 mkdir -p /var/www/lighttpd/centos8/x86_64/
 			 mkdir /centos8
 			 mount -ro loop ./CentOS-8.4.2105-x86_64-dvd1.iso /centos8/
@@ -245,7 +245,7 @@ case "$SUBCOMMAND" in
 			 ##### Retrieve and prepare Rocky ISO for use to create local HTTP cache
 
 			 cd /tmp
-			 wget https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.4-x86_64-dvd1.iso
+			 wget -nv https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.4-x86_64-dvd1.iso
 			 mkdir -p /var/www/lighttpd/rocky/x86_64/
 			 mkdir /rocky
 			 mount -ro loop ./Rocky-8.4-x86_64-dvd1.iso /rocky
@@ -257,8 +257,8 @@ case "$SUBCOMMAND" in
 
 			echo "/pfs *(rw,insecure,no_root_squash)" >> /etc/exports
 
-			wget https://snapshots.netgate.com/amd64/pfSense_master/installer/pfSense-CE-2.6.0-DEVELOPMENT-amd64-latest.iso.gz
-			wget https://snapshots.netgate.com/amd64/pfSense_master/installer/pfSense-CE-2.6.0-DEVELOPMENT-amd64-latest.iso.gz.sha256
+			wget -nv https://snapshots.netgate.com/amd64/pfSense_master/installer/pfSense-CE-2.6.0-DEVELOPMENT-amd64-latest.iso.gz
+			wget -nv https://snapshots.netgate.com/amd64/pfSense_master/installer/pfSense-CE-2.6.0-DEVELOPMENT-amd64-latest.iso.gz.sha256
 
 			TMPNAME=`cat pfSense-CE-2.6.0-DEVELOPMENT-amd64-latest.iso.gz.sha256  | awk '{printf "%s\n", $2}' | sed s/'[()]'//g`
 			ln -f -s pfSense-CE-2.6.0-DEVELOPMENT-amd64-latest.iso.gz $TMPNAME

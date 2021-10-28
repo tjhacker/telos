@@ -238,7 +238,19 @@ case "$SUBCOMMAND" in
 			 mkdir /centos8
 			 mount -ro loop ./CentOS-8.4.2105-x86_64-dvd1.iso /centos8/
 			rsync -avSHP /centos8/ /var/www/lighttpd/centos8/x86_64/
-			 cp /vagrant_data/ks8-telos.cfg /var/www/lighttpd/ks-telos.cfg
+			 cp /vagrant_data/ks8-telos.cfg /var/www/lighttpd/ks8-telos.cfg
+
+
+
+			 ##### Retrieve and prepare Rocky ISO for use to create local HTTP cache
+
+			 cd /tmp
+			 wget https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.4-x86_64-dvd1.iso
+			 mkdir -p /var/www/lighttpd/rocky/x86_64/
+			 mkdir /rocky
+			 mount -ro loop ./Rocky-8.4-x86_64-dvd1.iso /rocky
+			rsync -avSHP /rocky/ /var/www/lighttpd/rocky/x86_64/
+			 cp /vagrant_data/ks-rocky.cfg /var/www/lighttpd/ks-rocky.cfg
 
 
 			 ##### Retrieve and prepare pfSense image for use for NFS export and booting

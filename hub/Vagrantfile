@@ -237,7 +237,7 @@ yum -y install policycoreutils-python
 	cp /vagrant_data/pam_duo.conf /etc/duo/pam_duo.conf
 	sed -i 's/^ChallengeResponseAuthentication no/ChallengeResponseAuthentication yes/' /etc/ssh/sshd_config
 	sed -i "s/^#Port 22*$/Port $SSH_PORT/" /etc/ssh/sshd_config
-	cd  /etc/authselect; patch < /vagrant_data/centos8/pam-system-auth.patch 
+#	cd  /etc/authselect; patch < /vagrant_data/centos8/pam-system-auth.patch 
 	cd /etc/pam.d ; patch < /vagrant_data/centos8/pam-d-sshd.patch
 	firewall-cmd --permanent --add-port=$SSH_PORT/tcp --zone=dmz # ssh on alternative port
 	firewall-cmd --permanent --add-port=$SSH_PORT/tcp --zone=public # ssh on alternative port

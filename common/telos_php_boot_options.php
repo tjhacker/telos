@@ -12,7 +12,7 @@ echo "item --key g freenas_efi (g) Install FreeNAS server via EFI\n";
 echo "item --key c centos7 (c) Install CentOS7\n";
 echo "item --key d centos8-telos (d) Install CentOS8 from Telos cache\n";
 echo "item --key b centos8 (b) Install CentOS8\n";
-echo "item --key r rocky (r) Install Rocky\n";
+echo "item --key r rocky (r) Install Rocky from Telos cache\n";
 echo "item --key p pfs (p) Install pfSense\n";
 echo "item --key x pfs_efi (x) Install pfSense via EFI\n";
 echo "choose target\n";

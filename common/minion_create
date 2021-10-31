@@ -526,7 +526,7 @@ echo "V-C VXLan Port Created" > $PORT_STATUS
 		      let COUNT=COUNT+1;
 		done
 
-		if [[ EC != 0 ]]; then
+		if [[ $EC != 0 ]]; then
 	           echo "Verification of open VXlan connection failed."
 	   	   exit 1
 		fi

@@ -37,7 +37,7 @@ echo "boot\n";
 
 echo ":centos8\n";
 echo "#CentOS8\n";
-echo "kernel http://ftp.ussg.iu.edu/linux/centos/8/BaseOS/x86_64/kickstart/images/pxeboot/vmlinuz proxy=" . $proxy . " text repo=http://ftp.ussg.iu.edu/linux/centos/8/BaseOS/x86_64/kickstart text  ks=http://juno.load/ks8.cfg initrd=initrd.img \n";
+echo "kernel http://ftp.ussg.iu.edu/linux/centos/8/BaseOS/x86_64/kickstart/images/pxeboot/vmlinuz proxy=" . $proxy . " text repo=http://ftp.ussg.iu.edu/linux/centos/8/BaseOS/x86_64/kickstart text  ks=http://juno.load/ks8-telos.cfg initrd=initrd.img \n";
 echo "initrd http://ftp.ussg.iu.edu/linux/centos/8/BaseOS/x86_64/kickstart/images/pxeboot/initrd.img\n";
 echo "boot\n";
 

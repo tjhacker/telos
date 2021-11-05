@@ -8,6 +8,6 @@ cp -r common/* mhub/certbundle
 cp pam_duo.conf mhub/certbundle
 cd mhub
 vagrant up
-vagrant ssh -- '-p 1234'
+#vagrant ssh -- '-p 1234'
 
 

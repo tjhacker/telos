@@ -1,0 +1,47 @@
+#!/bin/bash
+# minionctl {create, start, status, restart, stop}
+
+SUBCOMMAND=$1
+OPTERR=1
+echo $subcommand
+shift 1
+
+case "${SUBCOMMAND}"
+in 
+	create) while getopts m:i:a:v:h option "$@";
+		do	
+			case $option
+			in
+			h|*)  echo "Syntax: create -m minion-port-name -i ipsec-adapter-name -a remote-ipsec-address -n ipsec-connection-name -v VXLAN-id -r <hub|spoke> -s <spoke name from Venus, Mars, Earth>"
+			esac
+		done
+		./minion_create $*
+		;;
+	start)       ;;
+	status) while getopts m:i:a:v:h option "$@";
+		do
+			case $option
+			in 
+			m)  MPORT=${OPTARG};;
+       			h|*)  echo "Syntax: status -m minion-port-name" ;;
+			esac
+		done
+		./minion_status -m $MPORT;;
+	restart) ;;
+        stop) ./minion_delete $*;;
+	delete) ./minion_delete $*;;
+esac
+
+
+
+while getopts cmd option
+do
+	case "{$option}" in
+	help) echo "Syntax....";;
+ 	create) ;;
+	start) ;;
+	status) ;;
+	restart) ;;
+	stop) ;;
+	esac
+done 

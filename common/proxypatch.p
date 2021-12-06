@@ -1,5 +1,27 @@
---- ipxe/src/net/proxy.c	1969-12-31 16:00:00.000000000 -0800
-+++ ipxepatch/src/net/proxy.c	2019-08-14 10:17:29.941214925 -0700
+diff -rubN ipxe/src/include/ipxe/proxy.h ipxepatch/src/include/ipxe/proxy.h
+--- ipxe/src/include/ipxe/proxy.h	1970-01-01 00:00:00.000000000 +0000
++++ ipxepatch/src/include/ipxe/proxy.h	2021-12-06 00:41:30.904138561 +0000
+@@ -0,0 +1,17 @@
++#ifndef _IPXE_PROXY_H
++#define _IPXE_PROXY_H
++
++/** @file
++ *
++ * HTTP Proxy
++ *
++ */
++
++FILE_LICENCE ( GPL2_OR_LATER );
++
++int is_proxy_set ( );
++struct uri *get_proxy ( );
++const char *proxied_uri_host ( struct uri *uri );
++unsigned int proxied_uri_port ( struct uri *uri, unsigned int default_port );
++
++#endif /* _IPXE_PROXY_H */
+diff -rubN ipxe/src/net/proxy.c ipxepatch/src/net/proxy.c
+--- ipxe/src/net/proxy.c	1970-01-01 00:00:00.000000000 +0000
++++ ipxepatch/src/net/proxy.c	2021-12-06 00:07:21.478009856 +0000
 @@ -0,0 +1,70 @@
 +#include <string.h>
 +#include <ipxe/proxy.h>
@@ -71,9 +93,10 @@
 +		return uri_port ( uri, default_port);
 +	}
 +}
---- ipxe/src/net/tcp/httpconn.c	2019-09-03 09:36:53.142934857 -0700
-+++ ipxepatch/src/net/tcp/httpconn.c	2019-08-14 10:23:02.155235061 -0700
-@@ -41,6 +41,7 @@
+diff -rubN ipxe/src/net/tcp/httpconn.c ipxepatch/src/net/tcp/httpconn.c
+--- ipxe/src/net/tcp/httpconn.c	2021-12-06 00:06:48.218845265 +0000
++++ ipxepatch/src/net/tcp/httpconn.c	2021-12-06 00:08:33.739367454 +0000
+@@ -42,6 +42,7 @@
  #include <ipxe/open.h>
  #include <ipxe/pool.h>
  #include <ipxe/http.h>
@@ -92,71 +115,39 @@
  
  	/* Look for a reusable connection in the pool.  Reuse the most
  	 * recent connection in order to accommodate authentication
-@@ -302,7 +305,8 @@
- 		goto err_filter;
- 	if ( ( rc = xfer_open_named_socket ( socket, SOCK_STREAM,
+@@ -298,7 +301,8 @@
+ 	server.st_port = htons ( port );
+ 	if ( ( rc = xfer_open_named_socket ( &conn->socket, SOCK_STREAM,
  					     ( struct sockaddr * ) &server,
 -					     uri->host, NULL ) ) != 0 )
 +					     /* uri->host, NULL ) ) != 0 ) */
 +	                                     proxied_uri_host ( uri ), NULL ) ) != 0 )
  		goto err_open;
  
- 	/* Attach to parent interface, mortalise self, and return */
---- ipxe/src/net/tcp/httpcore.c	2019-09-03 09:36:53.142934857 -0700
-+++ ipxepatch/src/net/tcp/httpcore.c	2019-08-14 10:17:29.945214937 -0700
-@@ -57,6 +57,7 @@
- #include <ipxe/vsprintf.h>
+ 	/* Add filter, if any */
+diff -rubN ipxe/src/net/tcp/httpcore.c ipxepatch/src/net/tcp/httpcore.c
+--- ipxe/src/net/tcp/httpcore.c	2021-12-06 00:06:48.218845265 +0000
++++ ipxepatch/src/net/tcp/httpcore.c	2021-12-06 00:08:44.579421097 +0000
+@@ -58,6 +58,7 @@
  #include <ipxe/errortab.h>
+ #include <ipxe/efi/efi_path.h>
  #include <ipxe/http.h>
 +#include <ipxe/proxy.h>
  
  /* Disambiguate the various error causes */
  #define EACCES_401 __einfo_error ( EINFO_EACCES_401 )
-@@ -599,8 +600,14 @@
+@@ -614,8 +615,14 @@
  
  	/* Calculate request URI length */
  	memset ( &request_uri, 0, sizeof ( request_uri ) );
--	request_uri.path = ( uri->path ? uri->path : "/" );
--	request_uri.query = uri->query;
 +	if ( is_proxy_set ( ) ) {
-+	  /*include all fields*/
-+	  memcpy( &request_uri, uri, sizeof( request_uri ));
++	   /*include all fields*/
++	   memcpy( &request_uri, uri, sizeof( request_uri ));
 +	}
 +	else {
-+	  request_uri.path = ( uri->path ? uri->path : "/" );
-+	  request_uri.query = uri->query;
+ 	request_uri.epath = ( uri->epath ? uri->epath : "/" );
+ 	request_uri.equery = uri->equery;
 +	}
  	request_uri_len =
  		( format_uri ( &request_uri, NULL, 0 ) + 1 /* NUL */);
  
---- ipxe/src/include/ipxe/proxy.h	1969-12-31 16:00:00.000000000 -0800
-+++ ipxepatch/src/include/ipxe/proxy.h	2019-08-14 10:17:17.622178690 -0700
-@@ -0,0 +1,17 @@
-+#ifndef _IPXE_PROXY_H
-+#define _IPXE_PROXY_H
-+
-+/** @file
-+ *
-+ * HTTP Proxy
-+ *
-+ */
-+
-+FILE_LICENCE ( GPL2_OR_LATER );
-+
-+int is_proxy_set ( );
-+struct uri *get_proxy ( );
-+const char *proxied_uri_host ( struct uri *uri );
-+unsigned int proxied_uri_port ( struct uri *uri, unsigned int default_port );
-+
-+#endif /* _IPXE_PROXY_H */
---- ipxe/src/include/ipxe/settings.h	2019-09-03 09:36:53.114934233 -0700
-+++ ipxepatch/src/include/ipxe/settings.h	2019-08-14 10:17:17.623178693 -0700
-@@ -467,6 +467,8 @@
- mac_setting __setting ( SETTING_NETDEV, mac );
- extern const struct setting
- busid_setting __setting ( SETTING_NETDEV, busid );
-+extern struct setting
-+http_proxy_setting __setting ( SETTING_MISC, ip );
- extern const struct setting
- user_class_setting __setting ( SETTING_HOST_EXTRA, user-class );
- extern const struct setting
